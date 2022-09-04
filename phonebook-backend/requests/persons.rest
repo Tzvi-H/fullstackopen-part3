@@ -9,3 +9,12 @@ GET http://localhost:3001/api/persons/10
 
 ###
 DELETE http://localhost:3001/api/persons/1
+
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+  "name": "new person from vscode",
+  "number": "123-456-7890"
+}
