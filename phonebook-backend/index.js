@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const data = require("./data.json");
 
@@ -11,6 +12,7 @@ const personsController = require("./controllers/persons");
 
 const port = process.env.PORT;
 
+app.use(cors());
 app.use(express.json());
 
 morgan.token("body", function (req, res) {
