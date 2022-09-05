@@ -13,6 +13,7 @@ const personsController = require("./controllers/persons");
 const port = process.env.PORT;
 
 app.use(cors());
+app.use(express.static("build"));
 app.use(express.json());
 
 morgan.token("body", function (req, res) {
