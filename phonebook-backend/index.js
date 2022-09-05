@@ -1,5 +1,8 @@
 require("dotenv").config();
+
 const express = require("express");
+const morgan = require("morgan");
+
 const data = require("./data.json");
 
 const app = express();
@@ -9,6 +12,7 @@ const personsController = require("./controllers/persons");
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
 app.use("/api/persons", personsController);
 
