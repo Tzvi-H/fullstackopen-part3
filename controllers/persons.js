@@ -1,9 +1,13 @@
 const personsController = require("express").Router();
 
+const Person = require("../models/person");
+
 let persons = require("../data.json");
 
 personsController.get("/", (req, res) => {
-  res.json(persons);
+  Person.find({}).then((persons) => {
+    res.json(persons);
+  });
 });
 
 personsController.get("/:id", (req, res) => {

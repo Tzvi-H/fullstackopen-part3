@@ -4,7 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 
-const data = require("./data.json");
+const Person = require("./models/person");
 
 const app = express();
 
