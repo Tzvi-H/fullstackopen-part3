@@ -8,15 +8,16 @@ personsController.get("/", (req, res) => {
   });
 });
 
-personsController.get("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
-
-  if (!person) {
-    res.status(404).end();
-  } else {
-    res.json(person);
-  }
+personsController.get("/:id", (req, res, next) => {
+  Person.findById(req.params.id)
+    .then((person) => {
+      if (!person) {
+        res.status(404).json({ error: `id ${req.params.id} does not exist` });
+      } else {
+        res.json(person);
+      }
+    })
+    .catch((error) => next(error));
 });
 
 personsController.post("/", async (req, res) => {
