@@ -2,8 +2,6 @@ const personsController = require("express").Router();
 
 const Person = require("../models/person");
 
-let persons = require("../data.json");
-
 personsController.get("/", (req, res) => {
   Person.find({}).then((persons) => {
     res.json(persons);
@@ -21,27 +19,28 @@ personsController.get("/:id", (req, res) => {
   }
 });
 
-personsController.post("/", (req, res) => {
-  const id = Math.floor(Math.random() * 10000);
+personsController.post("/", async (req, res) => {
   const { name, number } = req.body;
 
-  if (!name) {
-    return res.status(400).json({ error: "name is missing" });
-  } else if (!number) {
-    return res.status(400).json({ error: "number is missing" });
-  } else if (persons.some((person) => person.name === name)) {
-    return res.status(400).json({ error: "name must be unique" });
-  }
+  // if (!name) {
+  //   return res.status(400).json({ error: "name is missing" });
+  // } else if (!number) {
+  //   return res.status(400).json({ error: "number is missing" });
+  // } else if (persons.some((person) => person.name === name)) {
+  //   return res.status(400).json({ error: "name must be unique" });
+  // }
 
-  const newPerson = { id, name, number };
-  persons = persons.concat(newPerson);
+  const newPerson = new Person({ name, number });
+  await newPerson.save();
   res.json(newPerson);
 });
 
-personsController.delete("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  persons = persons.filter((person) => person.id !== id);
-  res.status(204).end();
+personsController.delete("/:id", (req, res, next) => {
+  Person.findByIdAndRemove(req.params.id)
+    .then((_result) => {
+      res.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 module.exports = personsController;
