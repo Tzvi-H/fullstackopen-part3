@@ -20,7 +20,7 @@ personsController.get("/:id", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-personsController.post("/", async (req, res) => {
+personsController.post("/", async (req, res, next) => {
   const { name, number } = req.body;
 
   // if (!name) {
@@ -32,8 +32,12 @@ personsController.post("/", async (req, res) => {
   // }
 
   const newPerson = new Person({ name, number });
-  await newPerson.save();
-  res.json(newPerson);
+  try {
+    await newPerson.save();
+    res.json(newPerson);
+  } catch (error) {
+    next(error);
+  }
 });
 
 personsController.put("/:id", async (req, res, next) => {
@@ -43,7 +47,7 @@ personsController.put("/:id", async (req, res, next) => {
     const savedPerson = await Person.findByIdAndUpdate(
       id,
       { number: req.body.number },
-      { new: true }
+      { new: true, runValidators: true, context: "query" }
     );
 
     if (!savedPerson) {

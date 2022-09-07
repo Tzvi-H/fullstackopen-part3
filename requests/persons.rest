@@ -8,14 +8,14 @@ GET http://localhost:3001/api/persons/631907a80047821bcf23642
 GET http://localhost:3001/api/persons/10
 
 ###
-DELETE http://localhost:3001/api/persons/6317b76be942cfd94a74b6e
+DELETE http://localhost:3001/api/persons/631907a80047821bcf236424
 
 ###
 POST http://localhost:3001/api/persons/
 Content-Type: application/json
 
 {
-  "name": "new person from vscode",
+  "name": "new",
   "number": "123-456-7890"
 }
 
