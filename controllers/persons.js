@@ -35,6 +35,26 @@ personsController.post("/", async (req, res) => {
   res.json(newPerson);
 });
 
+personsController.put("/:id", async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const savedPerson = await Person.findByIdAndUpdate(
+      id,
+      { number: req.body.number },
+      { new: true }
+    );
+
+    if (!savedPerson) {
+      return res.status(404).json({ error: `id ${id} does not exist` });
+    }
+
+    res.json(savedPerson);
+  } catch (error) {
+    next(error);
+  }
+});
+
 personsController.delete("/:id", (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
     .then((_result) => {

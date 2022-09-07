@@ -18,3 +18,11 @@ Content-Type: application/json
   "name": "new person from vscode",
   "number": "123-456-7890"
 }
+
+###
+PUT http://localhost:3001/api/persons/631908020047821bcf236423
+Content-Type: application/json
+
+{
+  "number": "123-456-7890"
+}
