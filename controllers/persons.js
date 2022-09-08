@@ -23,9 +23,12 @@ personsController.get("/:id", (req, res, next) => {
 personsController.post("/", async (req, res, next) => {
   const { name, number } = req.body;
 
-  // if (!name) {
-  //   return res.status(400).json({ error: "name is missing" });
-  // } else if (!number) {
+  const person = await Person.findOne({ name });
+
+  if (person) {
+    return res.status(400).json({ error: "name already exists" });
+  }
+  //else if (!number) {
   //   return res.status(400).json({ error: "number is missing" });
   // } else if (persons.some((person) => person.name === name)) {
   //   return res.status(400).json({ error: "name must be unique" });
